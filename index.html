@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Transaction Details</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom styles for better focus and aesthetics */
+        input:focus, select:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.45); /* Tailwind's blue-500 with opacity */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-8">
+
+    <div class="w-full max-w-5xl">
+        <!-- Header Card -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 overflow-hidden">
+            <div class="p-6 border-b border-gray-200 bg-gradient-to-r from-blue-600 to-indigo-700 text-white rounded-t-xl">
+                <h2 class="text-3xl font-extrabold text-center">Bank Transaction Details</h2>
+                <p class="text-blue-100 text-center mt-2 text-md">Managed by Anurag Maheshwari and Company</p>
+            </div>
+        </div>
+
+        <!-- CA Logo and Static Company Name -->
+        <div class="flex items-center justify-center gap-2 mb-4">
+            <img src="https://content.googleapis.com/v1/files/uploaded:CA_India_Logo.png-3730ebe2-d07-4775-abbd-9e203964f871?alt=media" alt="CA INDIA Logo" class="max-h-12 max-w-24 object-contain border border-gray-300 rounded-lg">
+            <p class="text-center text-gray-600 text-sm font-bold">Property: Anurag Maheshwari and Company</p>
+        </div>
+
+        <!-- Main Form Card -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="p-6">
+                <form id="bankTransactionForm" class="space-y-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <!-- Transaction Type Radio Group -->
+                            <div class="flex space-x-6 justify-center md:justify-start" id="transactionTypeRadioGroup">
+                                <div class="flex items-center space-x-2">
+                                    <input type="radio" id="payment" name="transactionType" value="payment" class="h-4 w-4 rounded-full border border-gray-300 text-blue-600 focus:ring-blue-500" checked>
+                                    <label for="payment" class="text-base font-medium text-gray-700">Payment Entry</label>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <input type="radio" id="receipt" name="transactionType" value="receipt" class="h-4 w-4 rounded-full border border-gray-300 text-blue-600 focus:ring-blue-500">
+                                    <label for="receipt" class="text-base font-medium text-gray-700">Receipt Entry</label>
+                                </div>
+                            </div>
+
+                            <!-- Common fields for both forms -->
+                            <div class="space-y-2">
+                                <label for="entryDate" class="text-sm font-medium leading-none">Date <span class="text-red-500">*</span></label>
+                                <input type="date" id="entryDate" name="entryDate" required class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="bankName" class="text-sm font-medium leading-none">Bank Name <span class="text-red-500">*</span></label>
+                                <select id="bankName" name="bankName" required class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                    <option value="">Select Bank</option>
+                                    <option value="SBI">SBI</option>
+                                    <option value="PNB">PNB</option>
+                                    <option value="CBI">CBI</option>
+                                    <option value="Axis">Axis</option>
+                                    <option value="HDFC">HDFC</option>
+                                    <option value="ICICI">ICICI</option>
+                                    <option value="Kotak">Kotak</option>
+                                    <option value="PSB">PSB</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="amount" class="text-sm font-medium leading-none">Amount (₹) <span class="text-red-500">*</span></label>
+                                <input type="number" id="amount" name="amount" step="0.01" required class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="particulars" class="text-sm font-medium leading-none">Particulars</label>
+                                <input type="text" id="particulars" name="particulars" class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Payment specific fields -->
+                            <div id="paymentFields" class="space-y-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Payment Details</h3>
+                                <div class="space-y-2">
+                                    <label for="chequeNoPayment" class="text-sm font-medium leading-none">Cheque No.</label>
+                                    <input type="text" id="chequeNoPayment" name="chequeNoPayment" class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="payeeName" class="text-sm font-medium leading-none">Name of the Payee <span class="text-red-500">*</span></label>
+                                    <input type="text" id="payeeName" name="payeeName" required class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                </div>
+                            </div>
+
+                            <!-- Receipt specific fields -->
+                            <div id="receiptFields" class="space-y-4 hidden">
+                                <h3 class="text-lg font-semibold text-gray-800">Receipt Details</h3>
+                                <div class="space-y-2">
+                                    <label for="chequeUpiRtgsReceipt" class="text-sm font-medium leading-none">Cheque No / UPI / RTGS</label>
+                                    <input type="text" id="chequeUpiRtgsReceipt" name="chequeUpiRtgsReceipt" class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="payerName" class="text-sm font-medium leading-none">Name of the Payer <span class="text-red-500">*</span></label>
+                                    <input type="text" id="payerName" name="payerName" required class="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center md:justify-end mt-8">
+                        <button type="submit" id="submitButton" class="w-full md:w-auto px-8 py-3 text-lg rounded-full font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300">
+                            Submit Transaction
+                        </button>
+                    </div>
+
+                    <!-- Submission Result Message -->
+                    <div id="submitResultMessage" class="hidden p-4 mt-6 rounded-lg text-center font-medium"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <iframe id="hiddenIframe" name="hiddenIframe" style="display:none;"></iframe>
+
+    <script>
+        // Get DOM elements
+        const bankTransactionForm = document.getElementById('bankTransactionForm');
+        const transactionTypeRadioGroup = document.getElementById('transactionTypeRadioGroup');
+        const paymentFields = document.getElementById('paymentFields');
+        const receiptFields = document.getElementById('receiptFields');
+        const submitButton = document.getElementById('submitButton');
+        const submitResultMessage = document.getElementById('submitResultMessage');
+
+        const entryDateInput = document.getElementById('entryDate');
+        const bankNameSelect = document.getElementById('bankName');
+        const amountInput = document.getElementById('amount');
+        const particularsInput = document.getElementById('particulars');
+
+        // Payment Specific
+        const chequeNoPaymentInput = document.getElementById('chequeNoPayment');
+        const payeeNameInput = document.getElementById('payeeName');
+
+        // Receipt Specific
+        const chequeUpiRtgsReceiptInput = document.getElementById('chequeUpiRtgsReceipt');
+        const payerNameInput = document.getElementById('payerName');
+
+        let currentTransactionType = 'payment'; // Initial form type
+
+        // --- Form Visibility Logic ---
+        function updateFormVisibility() {
+            if (currentTransactionType === 'payment') {
+                paymentFields.classList.remove('hidden');
+                receiptFields.classList.add('hidden');
+
+                // Set required for Payment fields
+                payeeNameInput.setAttribute('required', 'true');
+                // Remove required for Receipt fields
+                payerNameInput.removeAttribute('required');
+            } else { // receipt
+                paymentFields.classList.add('hidden');
+                receiptFields.classList.remove('hidden');
+
+                // Set required for Receipt fields
+                payerNameInput.setAttribute('required', 'true');
+                // Remove required for Payment fields
+                payeeNameInput.removeAttribute('required');
+            }
+        }
+
+        // Event listener for transaction type change (radio buttons)
+        transactionTypeRadioGroup.addEventListener('change', (event) => {
+            currentTransactionType = event.target.value;
+            console.log("Transaction type changed to:", currentTransactionType);
+            updateFormVisibility();
+        });
+
+        // --- Backend URL for Project 3 (PLACEHOLDER) ---
+        // You will replace this with the actual deployed URL of your NEW Google Apps Script for Project 3
+        const backendWebAppUrl = 'YOUR_PROJECT3_APPS_SCRIPT_WEB_APP_URL_HERE'; 
+
+        // Handle form submission
+        bankTransactionForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            console.log("Form submission triggered.");
+
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            submitResultMessage.classList.add('hidden');
+
+            const payload = {};
+            payload.company = "Anurag Maheshwari and Company"; // Static value
+            payload.type = currentTransactionType; // 'payment' or 'receipt'
+
+            payload.date = entryDateInput.value;
+            payload.bankName = bankNameSelect.value;
+            payload.amount = parseFloat(amountInput.value) || 0;
+            payload.particulars = particularsInput.value;
+
+            if (currentTransactionType === 'payment') {
+                payload.chequeNo = chequeNoPaymentInput.value;
+                payload.name = payeeNameInput.value; // Name of the Payee
+            } else { // receipt
+                payload.chequeUpiRtgs = chequeUpiRtgsReceiptInput.value;
+                payload.name = payerNameInput.value; // Name of the Payer
+            }
+
+            console.log("Payload to be sent:", payload);
+
+            // --- IFRAME SUBMISSION LOGIC ---
+            const form = document.createElement('form');
+            form.action = backendWebAppUrl;
+            form.method = 'POST';
+            form.target = 'hiddenIframe';
+            form.style.display = 'none';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'jsonPayload'; // Name of the parameter Apps Script expects in e.parameter
+            input.value = JSON.stringify(payload); // Stringify the entire payload
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+
+            form.submit();
+
+            const hiddenIframe = document.getElementById('hiddenIframe');
+            let iframeLoadTimeout;
+
+            hiddenIframe.onload = null; 
+            
+            iframeLoadTimeout = setTimeout(() => {
+                console.warn("Iframe load timed out. Check Apps Script logs for errors.");
+                submitResultMessage.textContent = 'Submission timed out. Please check Apps Script logs or network.';
+                submitResultMessage.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'border-green-300');
+                submitResultMessage.classList.add('bg-red-100', 'text-red-800', 'border', 'border-red-300');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Transaction';
+                document.body.removeChild(form);
+            }, 10000);
+
+            hiddenIframe.onload = () => {
+                clearTimeout(iframeLoadTimeout);
+                try {
+                    submitResultMessage.textContent = 'Transaction recorded successfully!';
+                    submitResultMessage.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'border-red-300');
+                    submitResultMessage.classList.add('bg-green-100', 'text-green-800', 'border', 'border-green-300');
+                    console.log("Form submission successful. Check Google Sheet.");
+
+                    // Reset form fields after success
+                    bankTransactionForm.reset();
+                    entryDateInput.value = new Date().toISOString().split('T')[0]; // Reset date to today
+                    updateFormVisibility(); // Reset visibility for fields
+
+                } catch (iframeError) {
+                    console.error("Error reading iframe response:", iframeError);
+                    submitResultMessage.textContent = 'Transaction submitted, but response could not be confirmed. Check Google Sheet.';
+                    submitResultMessage.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'border-red-300');
+                    submitResultMessage.classList.add('bg-yellow-600', 'text-white');
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Submit Transaction';
+                    document.body.removeChild(form);
+                }
+            };
+        });
+
+        // Initial setup on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            entryDateInput.value = new Date().toISOString().split('T')[0]; // Set default date
+            updateFormVisibility(); // Set initial visibility (Payment by default)
+        });
+    </script>
+</body>
+</html>
